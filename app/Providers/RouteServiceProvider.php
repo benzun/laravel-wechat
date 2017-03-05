@@ -39,7 +39,9 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->mapWebRoutes($router);
 
-        //
+        $this->mapWechatRoutes($router);
+
+        $this->mapAdminRoutes($router);
     }
 
     /**
@@ -58,4 +60,43 @@ class RouteServiceProvider extends ServiceProvider
             require app_path('Http/routes.php');
         });
     }
+
+    /**
+     * Define the "wechat" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @param  \Illuminate\Routing\Router  $router
+     * @return void
+     */
+    protected function mapWechatRoutes(Router $router)
+    {
+        $router->group([
+            'namespace' => $this->namespace . '\Wecaht',
+            'middleware' => 'web',
+            'prefix' => 'wechat'
+        ], function ($router) {
+            require app_path('Http/Routes/wechat.php');
+        });
+    }
+
+    /**
+     * Define the "admin" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @param  \Illuminate\Routing\Router  $router
+     * @return void
+     */
+    protected function mapAdminRoutes(Router $router)
+    {
+        $router->group([
+            'namespace' => $this->namespace . '\Admin',
+            'middleware' => 'web',
+            'prefix' => 'admin'
+        ], function ($router) {
+            require app_path('Http/Routes/admin.php');
+        });
+    }
+
 }
