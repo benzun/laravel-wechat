@@ -57,7 +57,7 @@ class AuthController extends Controller
             $this->loginUsername() => 'required', 'password' => 'required',
         ],[
             $this->loginUsername().'.required' => '账号不能为空！',
-            'password.required' => '密码不能为空'
+            'password.required' => '密码不能为空！'
         ]);
     }
 
