@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{{ asset('/static/admin/css/AdminLTE.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/static/admin/css/skins/_all-skins.min.css') }}">
     <link href="http://cdn.bootcss.com/iCheck/1.0.2/skins/flat/blue.css" rel="stylesheet">
+    @yield('css')
     <!--[if lt IE 9]>
     <script src="http://cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
     <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
@@ -21,6 +22,7 @@
     @include('admin.layout.side')
     <div class="content-wrapper">
         <section class="content">
+            @yield('body')
         </section>
     </div>
     @include('admin.layout.footer')
@@ -28,5 +30,6 @@
 <script src="http://cdn.bootcss.com/jquery/2.2.3/jquery.min.js"></script>
 <script src="http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="{{ asset('/static/admin/js/app.min.js') }}"></script>
+@yield('js')
 </body>
 </html>
