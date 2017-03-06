@@ -12,7 +12,7 @@
 */
 
 Route::auth();
-Route::get('/', 'IndexController@index');
+
 Route::group(['middleware' => 'auth'],function (){
     Route::get('/', 'IndexController@index');
     // 微信
