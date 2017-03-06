@@ -34,6 +34,8 @@ class AuthController extends Controller
     protected $username = 'user_name';
     protected $redirectAfterLogout = 'admin/login';
     protected $registerView = 'admin.auth.register';
+    protected $maxLoginAttempts = 3;
+    protected $lockoutTime = 600;
 
     /**
      * Create a new authentication controller instance.
@@ -74,6 +76,35 @@ class AuthController extends Controller
             ->withErrors([
                 'failed_login' => '账号或密码不正确！',
             ]);
+    }
+
+
+    /**
+     * Redirect the user after determining they are locked out.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    protected function sendLockoutResponse(Request $request)
+    {
+        $seconds = $this->secondsRemainingOnLockout($request);
+
+        return redirect()->back()
+            ->withInput($request->only($this->loginUsername(), 'remember'))
+            ->withErrors([
+                'failed_login' => '登录尝试太多次。请'.$seconds.'秒再登录',
+            ]);
+    }
+
+    /**
+     * Get the throttle key for the given request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return string
+     */
+    protected function getThrottleKey(Request $request)
+    {
+        return $request->ip();
     }
 
     /**

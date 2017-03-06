@@ -88,7 +88,7 @@ return [
     'passwords' => [
         'admin' => [
             'provider' => 'admin',
-            'user_name' => 'auth.user_name.password',
+            'email' => 'auth.email.password',
             'table' => 'password_resets',
             'expire' => 60,
         ],
