@@ -1,6 +1,6 @@
 <header class="main-header">
     <a class="logo">
-        <span class="logo-lg"><b>尊悦</b></span>
+        <span class="logo-lg"><b>尊悦微信云平台</b></span>
     </a>
     <nav class="navbar navbar-static-top">
         <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
