@@ -18,6 +18,6 @@ class AccountBusiness extends BasicBusiness
      */
     public function index(array $condition = [], array $select_field = ['*'])
     {
-        $this->dao->index($condition, $select_field);
+        return $this->dao->index($condition, $select_field);
     }
 }

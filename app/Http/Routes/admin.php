@@ -16,5 +16,4 @@ Route::auth();
 Route::group(['middleware' => 'auth'],function (){
     Route::get('/','IndexController@index');
     Route::controller('account','AccountController');
-    
 });

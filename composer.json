@@ -8,7 +8,10 @@
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
         "overtrue/wechat": "^3.2",
-        "zizaco/entrust": "5.2.x-dev"
+        "zizaco/entrust": "5.2.x-dev",
+        "intervention/image": "^2.3",
+        "barryvdh/laravel-ide-helper": "^2.3",
+        "maatwebsite/excel": "^2.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
