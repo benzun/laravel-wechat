@@ -19,7 +19,16 @@
 <body class="skin-blue sidebar-mini ">
 <div class="wrapper">
     @include('admin.layout.header')
-    @include('admin.layout.side')
+
+    @if(session()->has('wechat_account'))
+
+        @include('admin.layout.wechat_account')
+
+    @else
+
+        @include('admin.layout.side')
+
+    @endif
     <div class="content-wrapper">
         <section class="content">
             @yield('body')
