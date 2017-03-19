@@ -11,4 +11,14 @@ use Illuminate\Foundation\Auth\Access\AuthorizesResources;
 class Controller extends BaseController
 {
     use AuthorizesRequests, AuthorizesResources, DispatchesJobs, ValidatesRequests;
+
+
+    public function jsonFormat($data)
+    {
+        return response()->json([
+            'code' => 0,
+            'data' => $data->toArray(),
+            'msg'  => ''
+        ]);
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Business\AccountBusiness;
+use App\Http\Controllers\Common\Helper;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -18,7 +19,8 @@ class IndexController extends Controller
     public function index(AccountBusiness $account_business)
     {
         $account_list = $account_business->index([
-            'admin_users_id' => Auth::user()->id
+            'all'            => true,
+            'admin_users_id' => Helper::getAdminLoginInfo()
         ]);
 
         return view('admin.index.index', compact('account_list'));

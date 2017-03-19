@@ -25,6 +25,8 @@ class Authenticate
             }
         }
 
+        view()->share('admin_config',config('system.admin'));
+
         return $next($request);
     }
 }

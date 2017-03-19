@@ -72,7 +72,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWechatRoutes(Router $router)
     {
         $router->group([
-            'namespace' => $this->namespace . '\Wecaht',
+            'namespace' => $this->namespace . '\Wechat',
             'middleware' => 'web',
             'prefix' => 'wechat'
         ], function ($router) {
