@@ -66,7 +66,18 @@ class AccountController extends Controller
     }
 
     /**
-     * 检测是否接入成功
+     *
+     * @param Request $request
+     * @param AccountBusiness $account_business
+     */
+    public function getChange(Request $request, AccountBusiness $account_business)
+    {
+
+    }
+
+
+    /**
+     * Ajax检测是否接入成功
      * @param int $account_id
      * @param AccountBusiness $account_business
      */

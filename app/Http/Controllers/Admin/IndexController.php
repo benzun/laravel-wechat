@@ -18,11 +18,11 @@ class IndexController extends Controller
      */
     public function index(AccountBusiness $account_business)
     {
-        $account_list = $account_business->index([
+        $list = $account_business->index([
             'all'            => true,
             'admin_users_id' => Helper::getAdminLoginInfo()
         ]);
 
-        return view('admin.index.index', compact('account_list'));
+        return view('admin.index.index', compact('list'));
     }
 }
