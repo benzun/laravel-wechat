@@ -19,5 +19,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['middleware' => 'has-wechat-account'], function () {
         Route::controller('user', 'UserController');
+        Route::controller('wechat', 'WechatController');
     });
 });

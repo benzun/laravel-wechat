@@ -5,6 +5,7 @@ namespace App\Http\Business;
 use App\Http\Business\Dao\AccountDao;
 use App\Http\Controllers\Common\Helper;
 use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Facades\Image;
 
 class AccountBusiness extends BasicBusiness
 {
@@ -33,6 +34,13 @@ class AccountBusiness extends BasicBusiness
         $store_data['token']          = Helper::createToken();
         $store_data['aes_key']        = Helper::createEncodingAESKey();
         $store_data['identity']       = Helper::createToken();
+
+        // 裁剪头像
+        try {
+            $img = Image::make('http://open.weixin.qq.com/qr/code/?username=' . $store_data['wechat_id']);
+            $img->crop(86, 86, 172, 172)->save(Helper::getWechatHeadImgPath($store_data['wechat_id']));
+        } catch (\Exception $e) {
+        }
 
         return $this->dao->store($store_data);
     }

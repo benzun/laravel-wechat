@@ -23,15 +23,8 @@
 <div class="wrapper">
     @include('admin.layout.header')
 
-    @if(session()->has('wechat_account'))
+    @include('admin.layout.side')
 
-        @include('admin.layout.wechat_account')
-
-    @else
-
-        @include('admin.layout.side')
-
-    @endif
     <div class="content-wrapper">
         <section class="content">
             @yield('body')

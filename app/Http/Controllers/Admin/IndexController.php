@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Facades\Image;
 
 class IndexController extends Controller
 {
@@ -17,7 +18,7 @@ class IndexController extends Controller
      * @param AccountBusiness $account_business
      */
     public function index(AccountBusiness $account_business)
-    {
+    {   
         $list = $account_business->index([
             'all'            => true,
             'admin_users_id' => Helper::getAdminLoginInfo()

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Wechat;
 
+use App\Exceptions\JsonException;
 use App\Http\Controllers\Common\Helper;
 use Exception;
 use App\Http\Business\AccountBusiness;
@@ -20,14 +21,14 @@ class WechatController extends Controller
             'identity', 'signature', 'timestamp', 'nonce', 'echostr'
         ]);
 
-        if (empty($request_data['identity']) || strlen($request_data['identity'])!= 32) throw new Exception('参数错误');
+        if (empty($request_data['identity']) || strlen($request_data['identity']) != 32) throw new JsonException(1000);
 
         // 获取公众号信息
         $account_info = $account_business->show([
             'identity' => $request_data['identity']
         ]);
 
-        if (empty($account_info)) throw new Exception('公众号不存在');
+        if (empty($account_info)) throw new JsonException(20001);
 
         $wechat = Helper::newWechat([
             'app_id'  => $account_info->app_id,
@@ -79,7 +80,7 @@ class WechatController extends Controller
         $response = $wechat_server->serve();
 
         // 微信公众号配置接入请求,并更新微信公众号接入状态
-        if ($response->getContent() == $request_data['echostr']) {
+        if (!empty($request_data['echostr']) && $response->getContent() == $request_data['echostr']) {
             $account_business->update($account_info->id, [
                 'activate' => 'yes'
             ]);

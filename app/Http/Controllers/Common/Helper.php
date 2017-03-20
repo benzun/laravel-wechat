@@ -81,4 +81,14 @@ class Helper
         $wechat_config = array_merge(config('wechat'),$parameter);
         return new Application($wechat_config);
     }
+
+    /**
+     * 返回本地微信头像路径
+     * @param $wechat_id
+     */
+    public static function getWechatHeadImgPath($wechat_id)
+    {
+        return "static/admin/img/weixin/{$wechat_id}.jpg";
+    }
+
 }

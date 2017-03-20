@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exceptions\ErrorHtml;
 use App\Http\Business\AccountBusiness;
 use App\Http\Controllers\Common\Helper;
 use Illuminate\Http\Request;
@@ -63,29 +64,31 @@ class AccountController extends Controller
             'admin_users_id' => Helper::getAdminLoginInfo()
         ]);
 
+        if (empty($info)) throw new ErrorHtml('没有获取到数据');
+
         return view('admin.account.guide', compact('info'));
     }
 
     /**
-     * 
+     *
      * @param Request $request
      * @param AccountBusiness $account_business
      */
     public function getChange(Request $request, AccountBusiness $account_business)
     {
         $account_id = $request->get('account_id', 0);
+
         $info = $account_business->show([
-            'account_id' => $account_id,
+            'account_id'     => $account_id,
             'admin_users_id' => Helper::getAdminLoginInfo()
         ]);
 
-        if (empty($info)){
-            return false;
-        }
+        if (empty($info)) throw new ErrorHtml('没有获取到数据');
 
         Session::forget('wechat_account');
-        Session::put('wechat_account',$info);
-        return redirect(action('Admin\UserController@getIndex'));
+        Session::put('wechat_account', $info);
+
+        return redirect(action('Admin\WechatController@getIndex'));
     }
 
 
@@ -97,10 +100,12 @@ class AccountController extends Controller
     public function getCheckActivate(Request $request, AccountBusiness $account_business)
     {
         $account_id = $request->get('account_id', 0);
+
         $account_info = $account_business->show([
-            'account_id' => $account_id,
+            'account_id'     => $account_id,
             'admin_users_id' => Helper::getAdminLoginInfo()
         ]);
+
         return $this->jsonFormat($account_info);
     }
 
