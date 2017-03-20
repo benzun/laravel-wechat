@@ -94,7 +94,8 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label"></label>
                             <div class="col-sm-10">
-                                <button type="submit" class="btn btn-flat btn-primary">提 交</button>
+                                <button type="submit" class="btn btn-flat btn-primary"> 提 交 </button>
+                                <button type="button" style="margin-left: 5px;" class="btn btn-flat btn-success"> 返 回 </button>
                             </div>
                         </div>
 

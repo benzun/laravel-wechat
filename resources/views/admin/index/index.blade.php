@@ -50,7 +50,7 @@
 
 @section('css')
     <style>
-        .btn-primary,.enter-the:hover{
+        .btn-primary,.enter-the:hover,.enter-the:active{
             background-color: #6ccac9;
             border-color: #6ccac9;
         }
