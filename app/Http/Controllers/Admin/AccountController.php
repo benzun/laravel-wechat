@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Requests\AccountRequest;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class AccountController extends Controller
@@ -40,7 +41,7 @@ class AccountController extends Controller
         }
 
         $result = $account_business->store($store_data);
-        if (!$result) {
+        if (empty($result)) {
             return Helper::formSubmitError($store_data, '添加微信公众号失败！');
         }
 
@@ -66,13 +67,25 @@ class AccountController extends Controller
     }
 
     /**
-     *
+     * 
      * @param Request $request
      * @param AccountBusiness $account_business
      */
     public function getChange(Request $request, AccountBusiness $account_business)
     {
+        $account_id = $request->get('account_id', 0);
+        $info = $account_business->show([
+            'account_id' => $account_id,
+            'admin_users_id' => Helper::getAdminLoginInfo()
+        ]);
 
+        if (empty($info)){
+            return false;
+        }
+
+        Session::forget('wechat_account');
+        Session::put('wechat_account',$info);
+        return redirect(action('Admin\UserController@getIndex'));
     }
 
 

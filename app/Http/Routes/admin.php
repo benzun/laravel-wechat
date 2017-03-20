@@ -13,7 +13,11 @@
 
 Route::auth();
 
-Route::group(['middleware' => 'auth'],function (){
-    Route::get('/','IndexController@index');
-    Route::controller('account','AccountController');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/', 'IndexController@index');
+    Route::controller('account', 'AccountController');
+
+    Route::group(['middleware' => 'has-wechat-account'], function () {
+        Route::controller('user', 'UserController');
+    });
 });
