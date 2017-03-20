@@ -84,7 +84,7 @@ class AccountController extends Controller
         ]);
 
         if (empty($info)) throw new ErrorHtml('没有获取到数据');
-
+ 
         Session::forget('wechat_account');
         Session::put('wechat_account', $info);
 

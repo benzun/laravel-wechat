@@ -3,7 +3,7 @@
         @if(!empty(session('wechat_account')))
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="{{ \App\Http\Controllers\Common\Helper::getWechatHeadImgPath(session('wechat_account')->wechat_id) }}" class="img-circle" alt="User Image">
+                    <img src="/{{ \App\Http\Controllers\Common\Helper::getWechatHeadImgPath(session('wechat_account')->wechat_id) }}" class="img-circle" alt="User Image">
                 </div>
                 <div class="pull-left info">
                     <p>{{ session('wechat_account')->name }}</p>
