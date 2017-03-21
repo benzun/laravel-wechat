@@ -24,7 +24,7 @@
                                     <div class="widget-user-header bg-aqua-active" style="background-color: #57c8f2 !important;">
                                         <div class="widget-user-image">
                                             @if(file_exists(\App\Http\Controllers\Common\Helper::getWechatHeadImgPath($item['wechat_id'])))
-                                                <img class="img-circle" src="/{{ \App\Http\Controllers\Common\Helper::getWechatHeadImgPath($item['wechat_id']) }}" alt="User Avatar">
+                                                <img class="img-circle" src="{{ asset( \App\Http\Controllers\Common\Helper::getWechatHeadImgPath($item['wechat_id']) ) }}" alt="User Avatar">
                                             @else
                                                 <img class="img-circle" src="http://open.weixin.qq.com/qr/code/?username={{ $item['wechat_id'] }}" alt="User Avatar">
                                             @endif

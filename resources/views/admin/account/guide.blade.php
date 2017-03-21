@@ -60,7 +60,7 @@
                     showLoaderOnConfirm: true,
                 },
                 function(){
-                    $.get('{{ action('Admin\AccountController@getCheckActivate') }}', { account_id:'{{ $info->id }}'}, function(result){
+                    $.get('{{ action('Admin\AccountController@getCheckActivate') }}', { identity:'{{ $info->identity }}'}, function(result){
                         if (result.data!=''){
                             if (result.data.activate =='yes') {
                                 swal("接入成功", "", 'success')

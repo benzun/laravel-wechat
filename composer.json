@@ -11,7 +11,8 @@
         "zizaco/entrust": "5.2.x-dev",
         "intervention/image": "^2.3",
         "barryvdh/laravel-ide-helper": "^2.3",
-        "maatwebsite/excel": "^2.1"
+        "maatwebsite/excel": "^2.1",
+        "predis/predis": "^1.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

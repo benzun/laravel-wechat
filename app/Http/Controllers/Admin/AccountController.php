@@ -5,13 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Exceptions\ErrorHtml;
 use App\Http\Business\AccountBusiness;
 use App\Http\Controllers\Common\Helper;
+use App\Jobs\SyncWechatUser;
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
 use App\Http\Requests\AccountRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use App\Jobs\GetWechatAvatar;
 
 class AccountController extends Controller
 {
@@ -41,12 +42,18 @@ class AccountController extends Controller
             return Helper::formSubmitError($store_data, 'AppId(应用ID) 或者 AppSecret(应用密钥) 填写错误！');
         }
 
-        $result = $account_business->store($store_data);
-        if (empty($result)) {
+        $account = $account_business->store($store_data);
+        if (empty($account)) {
             return Helper::formSubmitError($store_data, '添加微信公众号失败！');
         }
 
-        $redirect_url = action('Admin\AccountController@getGuide') . '?identity=' . $result->identity;
+        // 队列处理微信头像
+        $this->dispatch(new GetWechatAvatar($account));
+        // 队列处理同步微信用户
+        $job = (new SyncWechatUser($account));
+        $this->dispatch($job);
+
+        $redirect_url = action('Admin\AccountController@getGuide') . '?identity=' . $account->identity;
 
         return redirect($redirect_url);
     }

@@ -3,7 +3,11 @@
         @if(!empty(session('wechat_account')))
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="/{{ \App\Http\Controllers\Common\Helper::getWechatHeadImgPath(session('wechat_account')->wechat_id) }}" class="img-circle" alt="User Image">
+                    @if(file_exists(\App\Http\Controllers\Common\Helper::getWechatHeadImgPath(session('wechat_account')->wechat_id)))
+                        <img class="img-circle" src="{{ asset( \App\Http\Controllers\Common\Helper::getWechatHeadImgPath(session('wechat_account')->wechat_id) ) }}" alt="User Avatar">
+                    @else
+                        <img class="img-circle" src="http://open.weixin.qq.com/qr/code/?username={{ session('wechat_account')->wechat_id }}" alt="User Avatar">
+                    @endif
                 </div>
                 <div class="pull-left info">
                     <p>{{ session('wechat_account')->name }}</p>

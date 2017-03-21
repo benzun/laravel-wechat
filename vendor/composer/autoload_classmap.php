@@ -9,7 +9,7 @@ return array(
     'AdminUsersTableSeeder' => $baseDir . '/database/seeds/AdminUsersTableSeeder.php',
     'CreateAccountsTable' => $baseDir . '/database/migrations/2017_03_06_164903_create_accounts_table.php',
     'CreateAdminUsersTable' => $baseDir . '/database/migrations/2014_10_12_000000_create_admin_users_table.php',
-    'CreateJobsTable' => $baseDir . '/database/migrations/2017_03_21_135119_create_jobs_table.php',
+    'CreateJobsTable' => $baseDir . '/database/migrations/2017_03_21_225737_create_jobs_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
     'CreateUsersTable' => $baseDir . '/database/migrations/2017_03_19_180336_create_users_table.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',

@@ -25,13 +25,15 @@ class ModelServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind('AccountModel','App\Model\Account');
+        $this->app->bind('UserModel','App\Model\User');
     }
 
 
     public function provides()
     {
         return [
-            'AccountModel'
+            'AccountModel',
+            'UserModel',
         ];
     }
 }
