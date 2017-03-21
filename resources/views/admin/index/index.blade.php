@@ -34,7 +34,7 @@
 
                                     <div class="box-footer" style="padding-left: 15px;padding-right: 15px;padding-bottom: 0px;">
                                         <div class="row">
-                                            <a href="{{ action('Admin\AccountController@getChange') }}?account_id={{ $item->id }}"><button type="button" class="btn btn-block btn-primary btn-flat enter-the">进入公众号平台</button>
+                                            <a href="{{ action('Admin\AccountController@getChange') }}?identity={{ $item->identity }}"><button type="button" class="btn btn-block btn-primary btn-flat enter-the">进入公众号平台</button>
                                             </a>
                                         </div>
                                     </div>

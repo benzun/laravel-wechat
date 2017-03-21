@@ -66,23 +66,10 @@ class AccountDao extends BasicDao
      * 获取微信公众号详情
      * @param array $condition
      */
-    public function show(array $condition = [], array $select_field = ['*'])
+    public function show($identity = null,array $select_field = ['*'])
     {
         $builder = App::make('AccountModel')->select($select_field);
-
-        if (isset($condition['admin_users_id'])) {
-            $builder->where('admin_users_id', $condition['admin_users_id']);
-        }
-
-        if (isset($condition['account_id'])) {
-            $builder->where('id', $condition['account_id']);
-        }
-
-        if (isset($condition['identity'])) {
-            $builder->where('identity', $condition['identity']);
-        }
-
-        return $builder->first();
+        return $builder->where('identity', $identity)->first();
     }
 
     /**

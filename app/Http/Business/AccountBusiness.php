@@ -48,9 +48,9 @@ class AccountBusiness extends BasicBusiness
     /**
      * 获取微信公众号信息
      */
-    public function show(array $condition = [])
+    public function show($identity = null,array $select_field = ['*'])
     {
-        return $this->dao->show($condition);
+        return $this->dao->show($identity, $select_field);
     }
 
     /**

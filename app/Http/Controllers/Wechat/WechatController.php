@@ -24,9 +24,7 @@ class WechatController extends Controller
         if (empty($request_data['identity']) || strlen($request_data['identity']) != 32) throw new JsonException(1000);
 
         // 获取公众号信息
-        $account_info = $account_business->show([
-            'identity' => $request_data['identity']
-        ]);
+        $account_info = $account_business->show($request_data['identity']);
 
         if (empty($account_info)) throw new JsonException(20001);
 

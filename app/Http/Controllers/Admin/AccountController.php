@@ -46,7 +46,7 @@ class AccountController extends Controller
             return Helper::formSubmitError($store_data, '添加微信公众号失败！');
         }
 
-        $redirect_url = action('Admin\AccountController@getGuide') . '?account_id=' . $result->id;
+        $redirect_url = action('Admin\AccountController@getGuide') . '?identity=' . $result->identity;
 
         return redirect($redirect_url);
     }
@@ -57,32 +57,24 @@ class AccountController extends Controller
      */
     public function getGuide(Request $request, AccountBusiness $account_business)
     {
-        $account_id = $request->get('account_id', 0);
+        $identity = $request->get('identity', 0);
 
-        $info = $account_business->show([
-            'account_id'     => $account_id,
-            'admin_users_id' => Helper::getAdminLoginInfo()
-        ]);
-
+        $info = $account_business->show($identity);
         if (empty($info)) throw new ErrorHtml('没有获取到数据');
 
         return view('admin.account.guide', compact('info'));
     }
 
     /**
-     *
+     * 进入公众号平台
      * @param Request $request
      * @param AccountBusiness $account_business
      */
     public function getChange(Request $request, AccountBusiness $account_business)
     {
-        $account_id = $request->get('account_id', 0);
+        $identity = $request->get('identity', 0);
 
-        $info = $account_business->show([
-            'account_id'     => $account_id,
-            'admin_users_id' => Helper::getAdminLoginInfo()
-        ]);
-
+        $info = $account_business->show($identity);
         if (empty($info)) throw new ErrorHtml('没有获取到数据');
  
         Session::forget('wechat_account');
@@ -99,14 +91,12 @@ class AccountController extends Controller
      */
     public function getCheckActivate(Request $request, AccountBusiness $account_business)
     {
-        $account_id = $request->get('account_id', 0);
+        $identity = $request->get('identity', 0);
 
-        $account_info = $account_business->show([
-            'account_id'     => $account_id,
-            'admin_users_id' => Helper::getAdminLoginInfo()
-        ]);
+        $info = $account_business->show($identity);
+        if (empty($info)) throw new ErrorHtml('没有获取到数据');
 
-        return $this->jsonFormat($account_info);
+        return $this->jsonFormat($info);
     }
 
 }
