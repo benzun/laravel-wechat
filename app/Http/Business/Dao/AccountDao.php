@@ -38,35 +38,14 @@ class AccountDao extends BasicDao
      */
     public function store($store_data = [])
     {
-        $allow = [
-            'admin_users_id',
-            'identity',
-            'name',
-            'wechat_id',
-            'original_id',
-            'type',
-            'app_id',
-            'secret',
-            'token',
-            'aes_key'
-        ];
-
-        $model = App::make('AccountModel');
-
-        foreach ($store_data as $key => $value) {
-            if (in_array($key, $allow)) {
-                $model->{$key} = $value;
-            }
-        }
-
-        return $model->save() ? $model : false;
+        return App::make('AccountModel')->create($store_data);
     }
 
     /**
      * 获取微信公众号详情
      * @param array $condition
      */
-    public function show($identity = null,array $select_field = ['*'])
+    public function show($identity = null, array $select_field = ['*'])
     {
         $builder = App::make('AccountModel')->select($select_field);
         return $builder->where('identity', $identity)->first();
@@ -77,7 +56,7 @@ class AccountDao extends BasicDao
      * @param int $account_id
      * @param array $update_data
      */
-    public function update($account_id = 0, array $update_data = [])
+    public function update($identity = null, array $update_data = [])
     {
         $allow = [
             'name',
@@ -95,6 +74,6 @@ class AccountDao extends BasicDao
             }
         }
 
-        return App::make('AccountModel')->where('id', $account_id)->update($allow_data);
+        return App::make('AccountModel')->where('identity', $identity)->update($allow_data);
     }
 }

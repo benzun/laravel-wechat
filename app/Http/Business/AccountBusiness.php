@@ -57,8 +57,8 @@ class AccountBusiness extends BasicBusiness
      * 更新微信公众号信息
      * @param array $update_data
      */
-    public function update($account_id = 0, array $update_data = [])
+    public function update($identity = null, array $update_data = [])
     {
-        return $this->dao->update($account_id, $update_data);
+        return $this->dao->update($identity, $update_data);
     }
 }

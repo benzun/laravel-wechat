@@ -34,7 +34,7 @@ class Helper
      */
     public static function getAdminLoginInfo($field = 'id')
     {
-        $admin_user = Auth::user()->toArray();
+        $admin_user = Auth::user();
         return isset($admin_user[$field]) ? $admin_user[$field] : $admin_user['id'];
     }
 
