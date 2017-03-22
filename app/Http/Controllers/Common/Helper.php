@@ -13,18 +13,55 @@ class Helper
      */
     public static function checkWechatAccount(array $parameter = [])
     {
-        $parameter = array_only($parameter, [
-            'app_id',
-            'secret'
-        ]);
-
-        $wechat = new Application($parameter);
+        $wechat = self::newWechat(array_only($parameter,[
+            'app_id', 'secret'
+        ]));
 
         try {
             $wechat->access_token->getToken(true);
             return true;
         } catch (\Exception $e) {
             return false;
+        }
+    }
+
+    /**
+     * 获取公众号认证类型
+     * @param array $parameter
+     */
+    public static function getWecahtType(array $parameter = [])
+    {
+        $wechat = self::newWechat(array_only($parameter,[
+            'app_id', 'secret'
+        ]));
+
+        // 判断是否有获取用户权限
+        $is_get_user = false;
+        try {
+            $wechat->user->lists();
+            $is_get_user = true;
+        } catch (\Exception $e) {
+
+        }
+        // 具有获取用户权限，必须是通过微信认证
+        if ($is_get_user === true) {
+            return 'auth_service';
+        }
+
+        // 判断获取菜单权限
+        $is_get_menu = false;
+        try {
+            $wechat->menu->all();
+            $is_get_menu = true;
+        } catch (\Exception $e) {
+
+        }
+
+        // 没有获取用户权限，有获取菜单权限，是认证订阅号,否则是订阅号
+        if ($is_get_user === false && $is_get_menu === true) {
+            return 'auth_subscribe';
+        } else {
+            return 'subscribe';
         }
     }
 
@@ -78,7 +115,7 @@ class Helper
      */
     public static function newWechat(array $parameter = [])
     {
-        $wechat_config = array_merge(config('wechat'),$parameter);
+        $wechat_config = array_merge(config('wechat'), $parameter);
         return new Application($wechat_config);
     }
 

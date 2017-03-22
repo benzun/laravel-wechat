@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Http\Controllers\Common\Helper;
 use App\Http\Requests\Request;
 
 class AccountRequest extends Request
@@ -27,8 +28,7 @@ class AccountRequest extends Request
             'name'        => 'required',
             'wechat_id'   => 'required',
             'original_id' => 'required',
-            'type'        => 'required|in:subscribe,service,auth_subscribe,auth_service',
-            'app_id'      => 'required',
+            'app_id'      => 'sometimes|required|unique:accounts,app_id,null,id,admin_users_id,' . Helper::getAdminLoginInfo(),
             'secret'      => 'required',
         ];
     }
@@ -44,8 +44,8 @@ class AccountRequest extends Request
             'name.required'        => '请填写公众号名称',
             'wechat_id.required'   => '请填写微信号',
             'original_id.required' => '请填写公众号原始ID',
-            'type.required'        => '请选择类型',
             'app_id.required'      => '请填写AppId(应用ID)',
+            'app_id.unique'        => '公众号不可重复添加',
             'secret.required'      => '请填写AppSecret(应用密钥)'
         ];
     }

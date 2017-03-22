@@ -2,6 +2,7 @@
 
 namespace App\Http\Business;
 
+use App\Exceptions\ErrorHtml;
 use App\Http\Business\Dao\AccountDao;
 use App\Http\Controllers\Common\Helper;
 use Illuminate\Support\Facades\Auth;
@@ -34,6 +35,8 @@ class AccountBusiness extends BasicBusiness
         $store_data['token']          = Helper::createToken();
         $store_data['aes_key']        = Helper::createEncodingAESKey();
         $store_data['identity']       = Helper::createToken();
+        // 获取公众号认证类型
+        $store_data['type'] = Helper::getWecahtType($store_data);
         
         return $this->dao->store($store_data);
     }
@@ -41,7 +44,7 @@ class AccountBusiness extends BasicBusiness
     /**
      * 获取微信公众号信息
      */
-    public function show($identity = null,array $select_field = ['*'])
+    public function show($identity = null, array $select_field = ['*'])
     {
         return $this->dao->show($identity, $select_field);
     }
@@ -52,6 +55,9 @@ class AccountBusiness extends BasicBusiness
      */
     public function update($identity = null, array $update_data = [])
     {
+        if (isset($update_data['secret']) && substr_count($update_data['secret'],'*') > 0){
+            unset($update_data['secret']);
+        }
         return $this->dao->update($identity, $update_data);
     }
 }

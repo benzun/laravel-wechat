@@ -37,6 +37,7 @@
 <script src="{{ asset('/static/admin/js/app.min.js') }}"></script>
 <script src="http://cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
 <script src="http://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
+<script src="{{ asset('/static/admin/js/common.js') }}"></script>
 <script>
     $(document).ajaxStart(function() { Pace.restart(); });
 </script>

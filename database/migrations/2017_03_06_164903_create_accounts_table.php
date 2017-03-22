@@ -14,8 +14,8 @@ class CreateAccountsTable extends Migration
     {
         Schema::create('accounts', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('admin_users_id')->default(0)->comment('管理帐号ID');
-            $table->string('identity')->default('')->comment('身份标识');
+            $table->integer('admin_users_id')->default(0)->unsigned()->comment('管理帐号ID');
+            $table->string('identity')->default('')->unique()->comment('身份标识');
             $table->string('name')->default('')->comment('名称');
             $table->string('original_id')->default('')->comment('原始ID');
             $table->string('wechat_id')->default('')->comment('微信号');

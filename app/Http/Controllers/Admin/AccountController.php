@@ -41,7 +41,8 @@ class AccountController extends Controller
         if ($check_result === false) {
             return Helper::formSubmitError($store_data, 'AppId(应用ID) 或者 AppSecret(应用密钥) 填写错误！');
         }
-
+        
+        // 添加微信公众号
         $account = $account_business->store($store_data);
         if (empty($account)) {
             return Helper::formSubmitError($store_data, '添加微信公众号失败！');
@@ -56,6 +57,39 @@ class AccountController extends Controller
         $redirect_url = action('Admin\AccountController@getGuide') . '?identity=' . $account->identity;
 
         return redirect($redirect_url);
+    }
+
+    /**
+     * 更新公众号信息
+     */
+    public function getUpdate(Request $request, AccountBusiness $account_business)
+    {
+        $identity = $request->get('identity', 0);
+
+        $info = $account_business->show($identity);
+        if (empty($info)) throw new ErrorHtml('没有获取到数据');
+
+        return view('admin.account.update', compact('info'));
+    }
+
+    /**
+     * 更新公众号信息
+     * @param Request $request
+     * @param AccountBusiness $account_business
+     */
+    public function postUpdate(AccountRequest $request, AccountBusiness $account_business)
+    {
+        $update_data = $request->all();
+        $identity = $request->get('identity',null);
+
+        $result = $account_business->update($identity, $update_data);
+
+        if (empty($result)) {
+            return Helper::formSubmitError($update_data, '更新微信公众号失败！');
+        }
+
+        return redirect('admin');
+
     }
 
     /**
@@ -99,10 +133,7 @@ class AccountController extends Controller
     public function getCheckActivate(Request $request, AccountBusiness $account_business)
     {
         $identity = $request->get('identity', 0);
-
         $info = $account_business->show($identity);
-        if (empty($info)) throw new ErrorHtml('没有获取到数据');
-
         return $this->jsonFormat($info);
     }
 
