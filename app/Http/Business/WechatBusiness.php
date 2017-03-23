@@ -4,45 +4,104 @@ namespace App\Http\Business;
 
 use App\Exceptions\JsonException;
 use App\Http\Controllers\Common\Helper;
+use EasyWeChat\Support\Collection;
 
 class WechatBusiness extends BasicBusiness
 {
+    private $message;
+    private $account_info;
+    private $user_business;
+    private $wechat_app;
+
+    /**
+     * 初始化
+     * WechatBusiness constructor.
+     * @param UserBusiness $user_business
+     */
+    public function __construct(UserBusiness $user_business)
+    {
+        $this->user_business = $user_business;
+    }
+
+    /**
+     * 消息业务处理
+     * @param null $message
+     * @param array $account_info
+     */
+    public function messageHandler(Collection $message, $wechat_app, $account_info)
+    {
+        $this->message      = $message;
+        $this->account_info = $account_info;
+        $this->wechat_app   = $wechat_app;
+
+        switch ($message->MsgType) {
+            case 'event':
+                switch ($message->Event) {
+                    case 'subscribe':
+                        return self::eventSubscribe();
+                        break;
+                }
+                break;
+            case 'text':
+                return '收到文字消息';
+                break;
+            case 'image':
+                return '收到图片消息';
+                break;
+            case 'voice':
+                return '收到语音消息';
+                break;
+            case 'video':
+                return '收到视频消息';
+                break;
+            case 'location':
+                return '收到坐标消息';
+                break;
+            case 'link':
+                return '收到链接消息';
+                break;
+            // ... 其它消息
+            default:
+                return '收到其它消息';
+                break;
+        }
+    }
+
     /**
      * 关注事件
      * @param null $openid
      * @param null $account_info
      */
-    public function eventSubscribe($openid = null, array $account_info = null)
+    public function eventSubscribe()
     {
-        if (empty($openid) || empty($account_info)) {
-            throw new JsonException(10000);
-        }
-
-        $user_business = app('App\Http\Business\UserBusiness');
-
-        $user_info = $user_business->show($openid, $account_info['admin_users_id'], $account_info['id']);
+        //  获取微信用户信息
+        $user_info = $this->user_business->show(
+            $this->message->FromUserName,
+            $this->account_info->admin_users_id,
+            $this->account_info->id
+        );
 
         // 存在该微信用户
         if (!empty($user_info) && $user_info->subscribe == 0) {
-//            $user_business->update($openid, $account_info['admin_users_id'], $account_info['id'], [
-//                'subscribe' => 1
-//            ]);
-        }
-
-        // 有获取微信用户信息权限
-        if ($account_info['type'] == 'auth_service') {
-            $wechat = Helper::newWechat([
-                'app_id' => $account_info['app_id'],
-                'secret' => $account_info['secret']
+            $this->user_business->update(
+                $this->message->FromUserName,
+                $this->account_info->admin_users_id,
+                $this->account_info->id
+                , [
+                'subscribe' => 1
             ]);
-
-            // 获取微信用户信息
-            $user_info = $wechat->user->get($openid)->toArray();
-            $user_info['admin_users_id'] = $account_info['admin_users_id'];
-            $user_info['account_id']     = $account_info['id'];
-            $result = $user_business->store($user_info);
         }
 
+        if ($this->account_info->type == 'auth_service') {
+            // 获取微信用户信息
+            $user_info = $this->wechat_app->user->get($this->message->FromUserName)->toArray();
+
+            $this->user_business->store(array_merge($user_info, [
+                'admin_users_id' => $this->account_info->admin_users_id,
+                'account_id'     => $this->account_info->id,
+            ]));
+
+        }
 
         return '欢迎关注';
     }
