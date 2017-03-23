@@ -79,7 +79,7 @@ class WechatController extends Controller
 
         // 微信公众号配置接入请求,并更新微信公众号接入状态
         if (!empty($request_data['echostr']) && $response->getContent() == $request_data['echostr']) {
-            $account_business->update($account_info->id, [
+            $account_business->update($account_info->identity, [
                 'activate' => 'yes'
             ]);
         }
