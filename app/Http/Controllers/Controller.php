@@ -12,13 +12,28 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, AuthorizesResources, DispatchesJobs, ValidatesRequests;
 
-
+    /**
+     * 格式化成Json数据
+     * Author weixinhua
+     * @param $data
+     * @return array
+     */
     public function jsonFormat($data)
     {
-        return response()->json([
+        if (is_object($data)) {
+            if (method_exists($data, 'toArray')) {
+                $data = $data->toArray();
+            }
+
+            if (!is_array($data)) {
+                $data = (array)$data;
+            }
+        }
+
+        return [
             'code' => 0,
-            'data' => $data->toArray(),
-            'msg'  => ''
-        ]);
+            'msg'  => '成功',
+            'data' => $data,
+        ];
     }
 }
