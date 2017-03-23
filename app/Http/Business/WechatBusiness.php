@@ -22,11 +22,11 @@ class WechatBusiness extends BasicBusiness
 
         $user_business = app('App\Http\Business\UserBusiness');
 
-        $user_info = $user_business->show($openid, $account_info['admin_user_id'], $account_info['id']);
+        $user_info = $user_business->show($openid, $account_info['admin_users_id'], $account_info['id']);
 
         // 存在该微信用户
         if (!empty($user_info)) {
-            $user_business->update($openid, $account_info['admin_user_id'], $account_info['id'], [
+            $user_business->update($openid, $account_info['admin_users_id'], $account_info['id'], [
                 'subscribe' => 1
             ]);
         }
