@@ -23,7 +23,7 @@ class WechatBusiness extends BasicBusiness
         $user_info = $user_business->show($openid, $account_info['admin_users_id'], $account_info['id']);
 
         // 存在该微信用户
-        if (!empty($user_info)) {
+        if (!empty($user_info) && $user_info->subscribe == 0) {
             $user_business->update($openid, $account_info['admin_users_id'], $account_info['id'], [
                 'subscribe' => 1
             ]);
@@ -44,6 +44,6 @@ class WechatBusiness extends BasicBusiness
         }
 
 
-
+        return '欢迎关注';
     }
 }
