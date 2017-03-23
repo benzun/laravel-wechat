@@ -18,8 +18,6 @@ class WechatBusiness extends BasicBusiness
             throw new JsonException(10000);
         }
 
-        \Log::info($account_info);
-
         $user_business = app('App\Http\Business\UserBusiness');
 
         $user_info = $user_business->show($openid, $account_info['admin_users_id'], $account_info['id']);
@@ -31,18 +29,23 @@ class WechatBusiness extends BasicBusiness
             ]);
         }
 
-        $wechat = Helper::newWechat([
-            'app_id' => $account_info['app_id'],
-            'secret' => $account_info['secret']
-        ]);
+        // 有获取微信用户信息权限
+        if ($account_info['type'] == 'auth_service') {
+            $wechat = Helper::newWechat([
+                'app_id' => $account_info['app_id'],
+                'secret' => $account_info['secret']
+            ]);
 
-        // 获取微信用户信息
-        $user_info  = $wechat->user->get($openid)->toArray();
-        \Log::info($user_info);
-        $user_info['admin_users_id'] = $account_info['admin_users_id'];
-        $user_info['account_id']    = $account_info['id'];
-        \Log::info($user_info);
-        $result  = $user_business->store($user_info);
-        \Log::info($result);
+            // 获取微信用户信息
+            $user_info = $wechat->user->get($openid)->toArray();
+
+            $user_business->store(array_map($user_info,[
+                'admin_users_id' => $account_info['admin_users_id'],
+                'account_id' => $account_info['id']
+            ]));
+
+        }
+
+        return '欢迎关注';
     }
 }

@@ -11,7 +11,8 @@ class JsonException extends Exception
     private $data = [];
     private $error_code_list = [
         10000 => '参数错误',
-        20001 => '公众号不存在'
+        20001 => '公众号不存在',
+        20002 => '没有权限获取微信用户资料',
     ];
 
     /**

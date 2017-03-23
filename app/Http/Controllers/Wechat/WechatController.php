@@ -41,9 +41,9 @@ class WechatController extends Controller
         $wechat_server->setMessageHandler(function ($message) use ($account_info, $wechat_business) {
             switch ($message->MsgType) {
                 case 'event':
-                    switch ($message->Event){
+                    switch ($message->Event) {
                         case 'subscribe' :
-                            $wechat_business->eventSubscribe($message->FromUserName, $account_info);
+                            return $wechat_business->eventSubscribe($message->FromUserName, $account_info);
                             break;
                         case '' :
                     }
