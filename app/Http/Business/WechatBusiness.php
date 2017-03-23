@@ -39,7 +39,7 @@ class WechatBusiness extends BasicBusiness
         // 获取微信用户信息
         $user_info  = $wechat->user->get($openid)->toArray();
         \Log::info($user_info);
-        $user_info['admin_user_id'] = $account_info['admin_user_id'];
+        $user_info['admin_users_id'] = $account_info['admin_users_id'];
         $user_info['account_id']    = $account_info['id'];
         \Log::info($user_info);
         $result  = $user_business->store($user_info);
