@@ -18,7 +18,7 @@ class UserBusiness extends BasicBusiness
     public function store(array $store_data = [])
     {
         if (isset($store_data['tagid_list'])){
-            $store_data['tagid_list'] = json_encode(tagid_list);
+            $store_data['tagid_list'] = json_encode($store_data['tagid_list']);
         }
         return $this->dao->store($store_data);
     }
