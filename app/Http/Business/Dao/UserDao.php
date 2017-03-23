@@ -22,7 +22,7 @@ class UserDao extends BasicDao
     {
         $builder = App::make('UserModel')->select($select_field);
         $builder->where('openid', $openid);
-        $builder->where('$admin_users_id', $admin_users_id);
+        $builder->where('admin_users_id', $admin_users_id);
         $builder->where('account_id', $account_id);
         return $builder->first();
     }
