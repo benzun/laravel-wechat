@@ -97,6 +97,7 @@ class WechatController extends Controller
         $user_info = $user_business->show($openid, $account_info->admin_user_id, $account_info->id);
         // 不存在这个微信用户，则获取该微信用户资料，在添加
         if (empty($user_info)){
+            \Log::info($user_info);
             $wechat = Helper::newWechat([
                 'app_id' => $account_info->app_id,
                 'secret' => $account_info->secret
@@ -104,8 +105,10 @@ class WechatController extends Controller
             $user_info = $wechat->user->get($openid);
             $user_info['admin_user_id'] = $account_info->admin_user_id;
             $user_info['account_id'] = $account_info->id;
+            \Log::info($user_info);
             // 添加微信用户
-            $user_business->store($user_info);
+            $result = $user_business->store($user_info);
+            \Log::info($result);
         }
     }
 
