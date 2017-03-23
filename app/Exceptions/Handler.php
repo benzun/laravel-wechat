@@ -46,7 +46,7 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $e)
     {
         if ($e instanceof JsonException) {
-            return response()->json($e->getErrorMessage());
+            return response()->json($e->getErrorMessage(), 200, [], 256);
         }
         
         if ($e instanceof ErrorHtml) {
