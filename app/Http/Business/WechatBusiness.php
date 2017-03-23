@@ -18,6 +18,8 @@ class WechatBusiness extends BasicBusiness
             throw new JsonException(10000);
         }
 
+        \Log::info($account_info);
+
         $user_business = app('App\Http\Business\UserBusiness');
 
         $user_info = $user_business->show($openid, $account_info['admin_user_id'], $account_info['id']);
