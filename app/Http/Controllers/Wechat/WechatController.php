@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Wechat;
 
 use App\Exceptions\JsonException;
+use App\Http\Business\UserBusiness;
 use App\Http\Controllers\Common\Helper;
-use Exception;
 use App\Http\Business\AccountBusiness;
-use EasyWeChat\Foundation\Application;
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 
 class WechatController extends Controller
@@ -38,12 +37,13 @@ class WechatController extends Controller
         // 实例化微信服务端
         $wechat_server = $wechat->server;
 
-        $wechat_server->setMessageHandler(function ($message) {
+        $wechat_server->setMessageHandler(function ($message) use ($account_info) {
             switch ($message->MsgType) {
                 case 'event':
                     switch ($message->Event) {
                         // 关注事件
                         case 'subscribe':
+                            self::subscribe($message->FromUserName, $account_info);
                             break;
                         // 取消关注事件
                         case 'unsubscribe':
@@ -85,6 +85,28 @@ class WechatController extends Controller
         }
 
         return $response;
+    }
+
+    /**
+     * 判断opneid是否存在数据库中
+     * @param null $openid
+     * @param Collection $account_info
+     */
+    public function subscribe($openid = null,$account_info, UserBusiness $user_business)
+    {
+        $user_info = $user_business->show($openid, $account_info->admin_user_id, $account_info->id);
+        // 不存在这个微信用户，则获取该微信用户资料，在添加
+        if (empty($user_info)){
+            $wechat = Helper::newWechat([
+                'app_id' => $account_info->app_id,
+                'secret' => $account_info->secret
+            ]);
+            $user_info = $wechat->user->get($openid);
+            $user_info['admin_user_id'] = $account_info->admin_user_id;
+            $user_info['account_id'] = $account_info->id;
+            // 添加微信用户
+            $user_business->store($user_info);
+        }
     }
 
 }
