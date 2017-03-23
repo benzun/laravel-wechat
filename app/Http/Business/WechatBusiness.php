@@ -3,7 +3,6 @@
 namespace App\Http\Business;
 
 use App\Exceptions\JsonException;
-use App\Http\Controllers\Common\Helper;
 use EasyWeChat\Support\Collection;
 
 class WechatBusiness extends BasicBusiness
