@@ -40,6 +40,9 @@ class WechatBusiness extends BasicBusiness
                     case 'subscribe':
                         return self::eventSubscribe();
                         break;
+                    case 'unsubscribe':
+                        return self::eventUnsubscribe();
+                        break;
                 }
                 break;
             case 'text':
@@ -68,9 +71,7 @@ class WechatBusiness extends BasicBusiness
     }
 
     /**
-     * 关注事件
-     * @param null $openid
-     * @param null $account_info
+     * 关注公众号
      */
     public function eventSubscribe()
     {
@@ -90,6 +91,8 @@ class WechatBusiness extends BasicBusiness
                 , [
                 'subscribe' => 1
             ]);
+
+            return '欢迎关注';
         }
 
         if ($this->account_info->type == 'auth_service') {
@@ -105,4 +108,20 @@ class WechatBusiness extends BasicBusiness
 
         return '欢迎关注';
     }
+
+    /**
+     * 取消关注公众号
+     * @throws JsonException
+     */
+    public function eventUnsubscribe()
+    {
+        $this->user_business->update(
+            $this->message->FromUserName,
+            $this->account_info->admin_users_id,
+            $this->account_info->id
+            , [
+            'subscribe' => 0
+        ]);
+    }
+
 }
