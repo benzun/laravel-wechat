@@ -134,7 +134,8 @@ class AccountController extends Controller
     {
         $identity = $request->get('identity', 0);
         $info = $account_business->show($identity);
-        return $this->jsonFormat($info);
+        $data = !empty($info) && $info['activate'] == 'yes' ? 'yes' : 'no';
+        return $this->jsonFormat($data);
     }
 
 }

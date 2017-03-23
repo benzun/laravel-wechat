@@ -61,12 +61,8 @@
                 },
                 function(){
                     $.get('{{ action('Admin\AccountController@getCheckActivate') }}', { identity:'{{ $info->identity }}'}, function(result){
-                        if (result.data!=''){
-                            if (result.data.activate =='yes') {
-                                swal("接入成功", "", 'success')
-                            }else {
-                                swal("接入失败，请按照以上步骤操作", "", 'error');
-                            }
+                        if (result.data == 'yes'){
+                            swal("接入成功", "", 'success');
                         }else {
                             swal("接入失败，请按照以上步骤操作", "", 'error');
                         }
