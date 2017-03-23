@@ -103,7 +103,7 @@
                             <label class="col-sm-2 control-label"></label>
                             <div class="col-sm-10">
                                 <button type="submit" class="btn btn-flat btn-primary"> 更 新 </button>
-                                <button type="button" style="margin-left: 5px;" class="btn btn-flat btn-success"> 返 回 </button>
+                                <button type="button" style="margin-left: 5px;" class="btn btn-flat btn-success" onclick="history.back();"> 返 回 </button>
                             </div>
                         </div>
 
