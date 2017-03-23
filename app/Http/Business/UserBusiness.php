@@ -26,12 +26,12 @@ class UserBusiness extends BasicBusiness
      * @param null $admin_user_id
      * @param null $account_id
      */
-    public function show($openid = null, $admin_user_id = null, $account_id = null)
+    public function show($openid = null, $admin_users_id = null, $account_id = null)
     {
-        if (empty($openid) || empty($admin_user_id) || empty($account_id)){
+        if (empty($openid) || empty($admin_users_id) || empty($account_id)){
             return false;
         }
 
-        return $this->dao->show($openid, $admin_user_id, $account_id);
+        return $this->dao->show($openid, $admin_users_id, $account_id);
     }
 }
