@@ -7,6 +7,30 @@ use Illuminate\Support\Facades\App;
 class UserDao extends BasicDao
 {
     /**
+     * 获取微信用户列表
+     * @param array $condition
+     */
+    public function index(array $condition = [], array $select_field = ['*'])
+    {
+        $builder = App::make('UserModel')->select($select_field);
+
+        // 登陆后台用户
+        if (isset($condition['admin_users_id'])) {
+            $builder->where('admin_users_id', $condition['admin_users_id']);
+        }
+
+        // 所属公众号
+        if (isset($condition['account_id'])) {
+            $builder->where('account_id', $condition['account_id']);
+        }
+
+        $page_size = isset($condition['page_size']) && is_numeric($condition['page_size']) ? abs($condition['page_size']) : 20;
+
+        return $builder->paginate($page_size);
+
+    }
+
+    /**
      * account_id
      * Author weixinhua
      * @param array $store_data

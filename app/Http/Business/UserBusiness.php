@@ -20,6 +20,15 @@ class UserBusiness extends BasicBusiness
     }
 
     /**
+     * 获取微信用户列表
+     * @param array $condition
+     */
+    public function index(array $condition = [])
+    {
+        return $this->dao->index($condition);
+    }
+
+    /**
      * 添加微信用户
      * Author weixinhua
      * @param array $store_data

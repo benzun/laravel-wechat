@@ -19,7 +19,6 @@ class HasWechatAccount
         if (!$request->session()->has('wechat_account')) {
             return redirect('/admin');
         }
-        
         return $next($request);
     }
 }
