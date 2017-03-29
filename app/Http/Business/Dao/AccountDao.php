@@ -45,10 +45,19 @@ class AccountDao extends BasicDao
      * 获取微信公众号详情
      * @param array $condition
      */
-    public function show($identity = null, array $select_field = ['*'])
+    public function show(array $condition = [], array $select_field = ['*'])
     {
         $builder = App::make('AccountModel')->select($select_field);
-        return $builder->where('identity', $identity)->first();
+        // 身份标识
+        if (isset($condition['identity'])) {
+            $builder->where('identity', $condition['identity']);
+        }
+        // 后台用户id
+        if (isset($condition['admin_users_id'])) {
+            $builder->where('admin_users_id', $condition['admin_users_id']);
+        }
+
+        return $builder->first();
     }
 
     /**
@@ -56,7 +65,7 @@ class AccountDao extends BasicDao
      * @param int $account_id
      * @param array $update_data
      */
-    public function update($identity = null, array $update_data = [])
+    public function update(array $condition = [], array $update_data = [])
     {
         $allow = [
             'name',
@@ -74,6 +83,17 @@ class AccountDao extends BasicDao
             }
         }
 
-        return App::make('AccountModel')->where('identity', $identity)->update($allow_data);
+        $model = App::make('AccountModel');
+        
+        // 身份标识
+        if (isset($condition['identity'])) {
+            $model->where('identity', $condition['identity']);
+        }
+        // 后台用户id
+        if (isset($condition['admin_users_id'])) {
+            $model->where('admin_users_id', $condition['admin_users_id']);
+        }
+
+        return $model->update($allow_data);
     }
 }

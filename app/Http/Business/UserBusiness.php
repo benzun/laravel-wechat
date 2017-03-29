@@ -10,6 +10,7 @@ class UserBusiness extends BasicBusiness
     private $dao;
 
     /**
+     * 初始化
      * UserBusiness constructor.
      * @param UserDao $dao
      */
@@ -20,11 +21,13 @@ class UserBusiness extends BasicBusiness
 
     /**
      * 添加微信用户
+     * Author weixinhua
      * @param array $store_data
+     * @return mixed
      */
     public function store(array $store_data = [])
     {
-        if (isset($store_data['tagid_list'])){
+        if (isset($store_data['tagid_list']) && is_array($store_data['tagid_list'])) {
             $store_data['tagid_list'] = json_encode($store_data['tagid_list']);
         }
 
@@ -33,32 +36,34 @@ class UserBusiness extends BasicBusiness
 
     /**
      * 更新微信用户信息
-     * @param null $openid
-     * @param null $admin_users_id
-     * @param null $account_id
+     * Author weixinhua
+     * @param array $condition
+     * @param array $update_data
+     * @return mixed
+     * @throws JsonException
      */
-    public function update($openid = null, $admin_users_id = null, $account_id = null, array $update_data = [])
+    public function update(array $condition = [], array $update_data = [])
     {
-        if (empty($openid) || empty($admin_users_id) || empty($account_id) || empty($update_data)){
+        if (empty($condition)) {
             throw new JsonException(10000);
         }
 
-        return $this->dao->update($openid, $admin_users_id, $account_id, $update_data);
+        return $this->dao->update($condition, $update_data);
     }
 
 
     /**
      * 获取微信用户详情
-     * @param null $opneid
-     * @param null $admin_user_id
-     * @param null $account_id
+     * Author weixinhua
+     * @param array $condition
+     * @return mixed
+     * @throws JsonException
      */
-    public function show($openid = null, $admin_users_id = null, $account_id = null)
+    public function show(array $condition = [], array $select_field = ['*'])
     {
-        if (empty($openid) || empty($admin_users_id) || empty($account_id)){
-            return false;
+        if (empty($condition)) {
+            throw new JsonException(10000);
         }
-
-        return $this->dao->show($openid, $admin_users_id, $account_id);
+        return $this->dao->show($condition, $select_field);
     }
 }

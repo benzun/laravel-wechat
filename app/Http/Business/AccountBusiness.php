@@ -2,6 +2,8 @@
 
 namespace App\Http\Business;
 
+use App\Exceptions\ErrorHtml;
+use App\Exceptions\JsonException;
 use App\Http\Business\Dao\AccountDao;
 use App\Http\Controllers\Common\Helper;
 use Illuminate\Support\Facades\Auth;
@@ -45,23 +47,27 @@ class AccountBusiness extends BasicBusiness
     /**
      * 获取微信公众号信息
      */
-    public function show($identity = null, array $select_field = ['*'])
+    public function show(array $condition = [], array $select_field = ['*'])
     {
-        return Cache::rememberForever('account_' . $identity, function () use ($identity, $select_field) {
-            return $this->dao->show($identity, $select_field);
-        });
-
+        if (empty($condition)){
+            throw new JsonException(10000);
+        }
+        return $this->dao->show($condition, $select_field);
     }
 
     /**
      * 更新微信公众号信息
      * @param array $update_data
      */
-    public function update($identity = null, array $update_data = [])
+    public function update(array $condition = [], array $update_data = [])
     {
+        if (empty($condition)){
+            throw new JsonException(10000);
+        }
+        // 判断 secret 是否有修改
         if (isset($update_data['secret']) && substr_count($update_data['secret'], '*') > 0) {
             unset($update_data['secret']);
         }
-        return $this->dao->update($identity, $update_data);
+        return $this->dao->update($condition, $update_data);
     }
 }

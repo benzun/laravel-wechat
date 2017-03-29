@@ -29,9 +29,9 @@ class WechatBusiness extends BasicBusiness
      */
     public function messageHandler(Collection $message, $wechat_app, $account_info)
     {
-        $this->message      = $message;
+        $this->message = $message;
         $this->account_info = $account_info;
-        $this->wechat_app   = $wechat_app;
+        $this->wechat_app = $wechat_app;
 
         switch ($message->MsgType) {
             case 'event':
@@ -71,38 +71,34 @@ class WechatBusiness extends BasicBusiness
 
     /**
      * 关注公众号
+     * Author weixinhua
+     * @return string
+     * @throws JsonException
      */
     public function eventSubscribe()
     {
         //  获取微信用户信息
-        $user_info = $this->user_business->show(
-            $this->message->FromUserName,
-            $this->account_info->admin_users_id,
-            $this->account_info->id
-        );
+        $user_info = $this->user_business->show([
+            'openid'         => $this->message->FromUserName,
+            'admin_users_id' => $this->account_info->admin_users_id,
+            'account_id'     => $this->account_info->id,
+        ]);
 
-        // 存在该微信用户
-        if (!empty($user_info) && $user_info->subscribe == 0) {
-            $this->user_business->update(
-                $this->message->FromUserName,
-                $this->account_info->admin_users_id,
-                $this->account_info->id
-                , [
-                'subscribe' => 1
-            ]);
-
-            return '欢迎关注';
-        }
-
-        if ($this->account_info->type == 'auth_service') {
+        // 判断该微信用户是否存在
+        if (empty($user_info) && $this->account_info->type == 'auth_service') {
             // 获取微信用户信息
             $user_info = $this->wechat_app->user->get($this->message->FromUserName)->toArray();
+        }
 
-            $this->user_business->store(array_merge($user_info, [
+        // 更新微信用户关注状态
+        if (!empty($user_info) && $user_info->subscribe == 0) {
+            $this->user_business->update([
+                'openid'         => $this->message->FromUserName,
                 'admin_users_id' => $this->account_info->admin_users_id,
                 'account_id'     => $this->account_info->id,
-            ]));
-
+            ], [
+                'subscribe' => 1
+            ]);
         }
 
         return '欢迎关注';
@@ -110,15 +106,16 @@ class WechatBusiness extends BasicBusiness
 
     /**
      * 取消关注公众号
+     * Author weixinhua
      * @throws JsonException
      */
     public function eventUnsubscribe()
     {
-        $this->user_business->update(
-            $this->message->FromUserName,
-            $this->account_info->admin_users_id,
-            $this->account_info->id
-            , [
+        $this->user_business->update([
+            'openid'         => $this->message->FromUserName,
+            'admin_users_id' => $this->account_info->admin_users_id,
+            'account_id'     => $this->account_info->id,
+        ], [
             'subscribe' => 0
         ]);
     }

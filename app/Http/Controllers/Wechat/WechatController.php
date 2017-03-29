@@ -17,6 +17,7 @@ class WechatController extends Controller
 {
     /**
      * 微信公众号服务接入处理
+     * Author weixinhua
      * @param Request $request
      * @param AccountBusiness $account_business
      * @param WechatBusiness $wechat_business
@@ -33,7 +34,9 @@ class WechatController extends Controller
         if (empty($request_data['identity']) || strlen($request_data['identity']) != 32) throw new JsonException(1000);
 
         // 获取公众号信息
-        $account_info = $account_business->show($request_data['identity']);
+        $account_info = $account_business->show([
+            'identity' => $request_data['identity']
+        ]);
 
         if (empty($account_info)) throw new JsonException(20001);
 
@@ -55,7 +58,10 @@ class WechatController extends Controller
 
         // 微信公众号配置接入请求,并更新微信公众号接入状态
         if (!empty($request_data['echostr']) && $response->getContent() == $request_data['echostr']) {
-            $account_business->update($account_info->identity, [
+            // 更新接入状态
+            $account_business->update([
+                'identity' => $request_data['identity']
+            ], [
                 'activate' => 'yes'
             ]);
         }
