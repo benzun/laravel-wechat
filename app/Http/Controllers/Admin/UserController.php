@@ -17,10 +17,14 @@ class UserController extends Controller
      */
     public function getIndex(Request $request, UserBusiness $user_business)
     {
-        $list = $user_business->index([
+        $condition = $request->only([
+            'nickname'
+        ]);
+
+        $list = $user_business->index(array_merge([
             'admin_users_id' => session('wechat_account.admin_users_id'),
             'account_id'     => session('wechat_account.id'),
-        ]);
+        ], $condition));
 
         return view('admin.user.index', compact('list'));
     }
