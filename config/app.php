@@ -163,6 +163,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        Overtrue\LaravelFilesystem\Qiniu\QiniuStorageServiceProvider::class,
 
     ],
 

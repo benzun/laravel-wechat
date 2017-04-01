@@ -7,7 +7,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SyncWechatGroup extends Job implements ShouldQueue
+class SyncWechatAvatar extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 

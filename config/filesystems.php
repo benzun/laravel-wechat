@@ -62,6 +62,14 @@ return [
             'bucket' => 'your-bucket',
         ],
 
+        'qiniu' => [
+            'driver'     => 'qiniu',
+            'access_key' => env('QINIU_ACCESS_KEY', 'ymCF6XDDZM0XoF5aXO_2y09DkJrMThYC9OxMHT3o'),
+            'secret_key' => env('QINIU_SECRET_KEY', 'e6FIRZiVGG5oSNc1r1pRRdHxT5B9qVXHyACuS2DF'),
+            'bucket'     => env('QINIU_BUCKET', 'zunyue'),
+            'domain'     => env('QINIU_DOMAIN', 'onpidf33z.bkt.clouddn.com'),
+        ],
+
     ],
 
 ];

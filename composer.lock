@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "25b76e9bd2bb0c84a7c354bb5c613a8d",
-    "content-hash": "0ac361b065adb4581a8abafcf1e7f75c",
+    "hash": "696686304735aeb3b423711e92bb3efd",
+    "content-hash": "d6bc57a6b4f85dc95716c29270d35f41",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -1238,6 +1238,87 @@
             "time": "2016-09-16 12:04:44"
         },
         {
+            "name": "overtrue/flysystem-qiniu",
+            "version": "0.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/overtrue/flysystem-qiniu.git",
+                "reference": "7bef58b6386eefda1194ccb9b36186995386b220"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/overtrue/flysystem-qiniu/7bef58b6386eefda1194ccb9b36186995386b220.zip",
+                "reference": "7bef58b6386eefda1194ccb9b36186995386b220",
+                "shasum": ""
+            },
+            "require": {
+                "league/flysystem": "^1.0",
+                "php": ">=5.5.9",
+                "qiniu/php-sdk": "^7.1"
+            },
+            "require-dev": {
+                "mockery/mockery": "1.0.x-dev",
+                "php": ">=5.6.0",
+                "phpunit/phpunit": "~4.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Overtrue\\Flysystem\\Qiniu\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "overtrue",
+                    "email": "i@overtrue.me"
+                }
+            ],
+            "description": "Flysystem adapter for the Qiniu storage.",
+            "time": "2017-03-14 12:33:11"
+        },
+        {
+            "name": "overtrue/laravel-filesystem-qiniu",
+            "version": "0.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/overtrue/laravel-filesystem-qiniu.git",
+                "reference": "04a5e769c7e521b4e2b3a310abc840ed1186e90f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/overtrue/laravel-filesystem-qiniu/04a5e769c7e521b4e2b3a310abc840ed1186e90f.zip",
+                "reference": "04a5e769c7e521b4e2b3a310abc840ed1186e90f",
+                "shasum": ""
+            },
+            "require": {
+                "league/flysystem": "^1.0",
+                "overtrue/flysystem-qiniu": "^0.0.1",
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Overtrue\\LaravelFilesystem\\Qiniu\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "overtrue",
+                    "email": "i@overtrue.me"
+                }
+            ],
+            "description": "A Qiniu storage filesystem for Laravel.",
+            "time": "2017-03-14 13:19:05"
+        },
+        {
             "name": "overtrue/socialite",
             "version": "1.0.22",
             "source": {
@@ -1714,6 +1795,57 @@
                 "shell"
             ],
             "time": "2016-03-09 05:03:14"
+        },
+        {
+            "name": "qiniu/php-sdk",
+            "version": "v7.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/qiniu/php-sdk.git",
+                "reference": "b91653485e36b4797d7a302cc86c49695e47a642"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/qiniu/php-sdk/b91653485e36b4797d7a302cc86c49695e47a642.zip",
+                "reference": "b91653485e36b4797d7a302cc86c49695e47a642",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0",
+                "squizlabs/php_codesniffer": "~2.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Qiniu\\": "src/Qiniu"
+                },
+                "files": [
+                    "src/Qiniu/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Qiniu",
+                    "email": "sdk@qiniu.com",
+                    "homepage": "http://www.qiniu.com"
+                }
+            ],
+            "description": "Qiniu Resource (Cloud) Storage SDK for PHP",
+            "homepage": "http://developer.qiniu.com/",
+            "keywords": [
+                "cloud",
+                "qiniu",
+                "sdk",
+                "storage"
+            ],
+            "time": "2016-11-18 02:57:31"
         },
         {
             "name": "swiftmailer/swiftmailer",
